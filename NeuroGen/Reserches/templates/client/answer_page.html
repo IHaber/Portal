@@ -1,0 +1,54 @@
+{% extends 'client/layout.html' %}
+
+{% block title %}
+    Title
+{% endblock title %}
+
+
+
+{% block content %}
+<div class="container pb-3 shadow rounded"> 
+    <div>
+        {% if answer_research.base_research.research_name %}
+            <h2 class="display-5 text-center">{{ answer_research.base_research.research_name }}</h2>
+        {% endif %}
+    </div>
+    <div class="container d-flex align-items-center justify-content-center text-dark pt-4 pb-2">
+        {% if answer_research.image_to_react %}
+            <img src="{{ answer_research.image_to_react.url }}" alt="" style="width: 50%; border-radius: 21px;">
+        {% elif answer_research.video_to_react %}
+            <video width="600" controls>
+                <source src="{{ answer_research.video_to_react.url }}" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'>
+                <a href="{{ answer_research.video_to_react.url }}">Скачайте видео</a>
+            </video>
+        {% else %}
+            <div class="mb-5">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium aliquam aspernatur beatae
+                cupiditate dolor, eum maxime nulla possimus voluptate? Asperiores at debitis dignissimos eius fugit
+                laboriosam minima nihil quis unde.
+            </div>
+        {% endif %}
+    </div>
+    
+    <form method="post" enctype="multipart/form-data" class="needs-validation d-flex align-items-center justify-content-center mt-4">
+        {% csrf_token %}
+        {% if form.non_field_errors %}
+                <div class="alert alert-danger mb-0" role="alert">
+                    {% for error in form.non_field_errors %}
+                    <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+        {% endif %}
+        
+        <div class="row g-2 mb-3 w-25">
+            {% for el in form %}
+                <label for="{{ el.id_for_label }}">{{ el.label }}</label>
+                {{ el }}
+                <div>{{ el.errors }}</div>
+            {% endfor %}
+            <button type="submit" class="btn btn-success mt-4">
+            {{ btn_name }}
+        </button>
+        </div>
+    </form>
+</div>
+{% endblock content %}

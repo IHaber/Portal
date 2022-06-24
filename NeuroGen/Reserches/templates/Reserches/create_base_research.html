@@ -1,0 +1,57 @@
+{% extends 'Reserches/layout.html' %}
+
+{% block title %}
+    {{ title }}
+{% endblock title %}
+
+{% block content %}
+<div class="container shadow p-3 rounded">
+    {% if research.base_research.research_name %}
+        <h2 class="display-5">{{ research.base_research.research_name }}</h2>
+        <p class="lead">{{ research.base_research.research_customer }}</p>
+    {% endif %}
+    <div class="container d-flex align-items-center justify-content-center text-dark pt-4 pb-2">
+        {% if research.image_to_react %}
+            <img src="{{ research.image_to_react.url }}" alt="" style="width: 50%; border-radius: 21px;">
+        {% elif research.video_to_react %}
+            <video width="600" class="" controls>
+                <source src="{{ research.video_to_react.url }}" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'>
+                <a href="{{ research.video_to_react.url }}">Скачайте видео</a>
+            </video>
+        {% else %}
+        {% endif %}
+    </div>
+    <form method="post" enctype="multipart/form-data" class="needs-validation">
+        {% csrf_token %}
+        {% if form.non_field_errors %}
+                <div class="alert alert-danger mb-0" role="alert">
+                    {% for error in form.non_field_errors %}
+                    <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+        {% endif %}
+        
+        <div class="row g-2 mb-3 w-25">
+            {% for el in form %}
+                {% if not forloop.last %}
+                    <label for="{{ el.id_for_label }}">{{ el.label }}</label>
+                    {{ el }}
+                    <div>{{ el.errors }}</div>
+                {% else %}
+                    <div class="form-check form-switch">
+                        <label class="form-check-label" for="{{ el.id_for_label }}">{{ el.label }}</label>
+                        {{ el }}
+                        <div>{{ el.errors }}</div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <button type="submit" class="btn btn-success">
+            {{ btn_name }}
+            {% if btn_name == 'Продолжить' %}
+            <i class="bi bi-arrow-right-square"></i>
+            {% endif %}
+        </button>
+    </form>
+</div>
+{% endblock content %}

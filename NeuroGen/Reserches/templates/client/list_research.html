@@ -1,0 +1,31 @@
+{% extends 'client/layout.html' %}
+
+{% block title %}
+    Title
+{% endblock title %}
+
+
+
+{% block content %}
+<div class="container pb-3 shadow rounded">
+    {% for p in posts %}
+        <div class="card border-bottom mb-3">
+            <div class="card-header d-flex align-items-center justify-content-md-between">
+                <div class="container d-flex align-items-center ps-0">
+                    <h5 class="me-2">Исследование:</h5>
+                    <h4>{{ p.base_research.research_name }}</h4>
+                </div>
+                <a href="{{ p.get_answer_url }}" class="btn btn-primary d-flex">Пройти<i class="bi bi-arrow-right ms-1"></i></a>
+            </div>
+            <div class="card-body ms-3">
+                {% if p.base_research.research_description %}
+                <h6 class="card-title">Описание:</h6>
+                <h6 class="card-text">{{ p.base_research.research_description }}</h6>
+                {% else %}
+                <h6 class="card-title">Без описания</h6>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock content %}

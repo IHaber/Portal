@@ -1,0 +1,29 @@
+{% extends 'Reserches/layout.html' %}
+
+{% block title %}
+    {{ title }}
+{% endblock title %}
+
+{% block content %}
+<div class="container shadow p-3 rounded">
+  <form method="post" enctype="multipart/form-data" class="needs-validation">
+    {% csrf_token %}
+    {% if form.non_field_errors %}
+    <div class="alert alert-danger mb-0" role="alert">
+      {% for error in form.non_field_errors %}
+      <p>{{ error }}</p>
+      {% endfor %}
+    </div>
+    {% endif %}
+    
+    <div class="row g-2 mb-3 w-25">
+      {% for el in form %}
+          <label for="{{ el.id_for_label }}">{{ el.label }}</label>
+          {{ el }}
+          <div>{{ el.errors }}</div>
+      {% endfor %}
+    </div>
+    <button type="submit" class="btn btn-success">{{ btn_name }}</button>
+  </form>
+</div>
+{% endblock content %}

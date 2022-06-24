@@ -1,0 +1,75 @@
+{% extends 'Reserches/layout.html' %}
+
+{% block title %}
+    {{ title }}
+{% endblock title %}
+
+{% block content %}
+<div class="bg-primary me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center text-white overflow-hidden">
+    <div class="my-3 py-3">
+        <h2 class="display-5">{{ research.base_research.research_name }}</h2>
+        <p class="lead">{{ research.base_research.research_customer }}</p>
+        <p class="lead">{{ research.base_research.research_state }}</p>
+    </div>
+    <div class="bg-light shadow-sm mx-auto mb-5" style="width: 80%; border-radius: 21px;">
+        <div class="container d-flex align-items-center justify-content-center text-dark pt-4 pb-2">
+            {% if research.image_to_react %}
+                <img src="{{ research.image_to_react.url }}" alt="" style="width: 50%; border-radius: 21px;">
+            {% elif research.video_to_react %}
+                <video width="600" controls>
+                    <source src="{{ research.video_to_react.url }}" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'>
+                    <a href="{{ research.video_to_react.url }}">Скачайте видео</a>
+                </video>
+            {% else %}
+                <div class="mb-5">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium aliquam aspernatur beatae
+                    cupiditate dolor, eum maxime nulla possimus voluptate? Asperiores at debitis dignissimos eius fugit
+                    laboriosam minima nihil quis unde.
+                </div>
+            {% endif %}
+        </div>
+        <div class="mb-5 text-dark">
+            <h4>
+                Количество прохождений: 
+                {% if research.image_to_react %}
+                    {{ research.imageresearchanswer_set.count }}
+                {% elif research.video_to_react %}
+                    {{ research.videoresearchanswer_set.count }}
+                {% else %}
+                    n\a
+                {% endif %}
+                {% if research.base_research.research_state == "done" %}
+                    {% if research.image_to_react %}
+                        <a href="{% url 'image_export' research.pk %}" class="btn btn-primary mx-3">
+                            Скачать результаты
+                            <i class="bi bi-cloud-download-fill"></i>
+                        </a>
+                    {% elif research.video_to_react %}
+                        <a href="{% url 'video_export' research.pk %}" class="btn btn-primary mx-3">
+                            Скачать результаты
+                            <i class="bi bi-cloud-download-fill"></i>
+                        </a>
+                    {% else %}
+                        n\a
+                    {% endif %}
+                {% endif %}
+            </h4>
+            <h5 class="text-dark">{{ research.base_research.research_description }}</h5>
+        </div>
+        <div class="d-flex justify-content-between pb-3">
+            <a href="{% url 'published' %}" class="btn btn-primary mx-3">{{ btn_name }}</a>
+            <div class="d-flex mx-1">
+                <form action="{% url 'delete_research' research.base_research.id %}" method="post">
+                    {% csrf_token %}
+                    <input type="submit" class="btn btn-danger mx-3" value="{{ btn_name_delete }}">
+                </form>
+                {% if research.base_research.research_state == "published" %}
+                <form action="{% url 'finish_research' research.base_research.id %}" method="post">
+                    {% csrf_token %}
+                    <input type="submit" class="btn btn-success mx-3" value="{{ btn_name_done }}">
+                </form>
+                {% endif %}
+            </div>
+        </div> 
+    </div>
+</div>
+{% endblock content %}

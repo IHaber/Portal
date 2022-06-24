@@ -1,0 +1,23 @@
+{% extends 'Reserches/layout.html' %}
+
+{% block title %}
+Главная
+{% endblock title %}
+
+{% block content %}
+    <div class="container h-50 bg-light shadow p-3 rounded">
+        <div>
+            <div class="mb-3">Весь необходимый инструментарий, позволяющий гибко настраивать исследование в зависимости от стоящих задач и особенностей контента
+            </div>
+            <div class="mb-3">Контроль проекта на всех стадиях
+            </div>
+            <div class="mb-3">Гибкая система учёта характеристик аудитории
+            </div>
+            <div class="mb-3">AДля Вашего удобства разработаны шаблоны типичных исследований
+            </div>
+            <div class="mb-3">Полная конфиденциальность и контроль учетных записей
+            </div>
+        </div>
+        <a href="{% url 'create_research' %}" class="btn btn-success" autofocus>Создать исследование</a>
+    </div>
+{% endblock content %}
